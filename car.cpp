@@ -1,6 +1,10 @@
 #include <GL/glut.h>
 #include "car.h"
 #include "road.h"
+#include <stdio.h>
+#include "imageio.h"
+#include <string.h>
+#include <math.h>
 #include <math.h>
 
 using namespace std;
@@ -477,53 +481,58 @@ void CAR::WireFrame()
   glVertex3f(8, 3, -6);
   glVertex3f(8, 0, -6);
   glEnd();
-
-  //-------------------------WINDSCREEN-------------
-
-
-// glColor4f(1.0, 1.0, 1.0, 0.2);
-const float mirdiff[] = {1.0,1.0,1.0,0.5};
-
-  glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mirdiff);
-  glBegin(GL_LINE_LOOP);
-  glVertex3f(-3, 5, 2);
-  glVertex3f(-3, 5, -2);
-  glVertex3f(-7, 4, -5); // CENTRE
-  glVertex3f(-7, 4, 5);
-
-  glEnd();
-
-  glBegin(GL_LINE_LOOP);
-  glVertex3f(-3, 5, 2);
-  glVertex3f(0, 6, 3);
-  glVertex3f(-7, 4, 5); // C U
-
-  glEnd();
-
-  glBegin(GL_LINE_LOOP);
-  glVertex3f(-3, 5, -2);
-  glVertex3f(0, 6, -3);
-  glVertex3f(-7, 4, -5); // C D
-
-  glEnd();
-
-  glBegin(GL_LINE_LOOP); // TOP
-  glVertex3f(-7, 4, 5);
-  glVertex3f(0, 6, 3);
-  glVertex3f(12, 3, 3);
-  glEnd();
-
-  glBegin(GL_LINE_LOOP); // DOWN
-  glVertex3f(-7, 4, -5);
-  glVertex3f(0, 6, -3);
-  glVertex3f(12, 3, -3);
-  glEnd();
-
-
 }
 
+void drawText(float x, float y, const char *text) {
+    glRasterPos2f(x, y);
+    while (*text) {
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *text);
+        ++text;
+    }
+}
+
+void drawStrokeCharacter(float x, float y, float z, char *string) {
+    char *c;
+    glPushMatrix();
+    glScalef(0.02, 0.02, 1); // Adjust scale for 50px text size
+    glLineWidth(10.0); // Set line width for extra bold effect
+    glTranslatef(x, y, z / 1000);
+    for (c = string; *c != '\0'; c++) {
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, *c);
+    }
+    glPopMatrix();
+}
+
+void drawStrokeCharacter1(float x, float y, float z, char *string) {
+    char *c;
+    glPushMatrix();
+    glScalef(0.01, 0.01, 1); // Adjust scale for 50px text size
+    glLineWidth(10.0); // Set line width for extra bold effect
+    glTranslatef(x, y, z / 1000);
+    for (c = string; *c != '\0'; c++) {
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, *c);
+    }
+    glPopMatrix();
+}
+
+void showScore()
+{
+    glDisable(GL_LIGHTING);
+    char *tempString = new char[40];
+    snprintf(tempString, 40, "CS352 Project");
+    glColor3d(1, 1, 1);
+    drawStrokeCharacter(-200, 1000, -20000, tempString);
+
+    snprintf(tempString, 40, "Mihir Jayant Samip");
+    glColor3d(1, 1, 1);
+    drawStrokeCharacter1(-200, 1800, -20000, tempString);
+    delete tempString;
+    glEnable(GL_LIGHTING);
+}
 void CAR::Paint()
 {
+
+  // glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 
   glColor3f(0, 0, 0);
 
@@ -784,7 +793,7 @@ glEnd();
 
   //-----------------------------base floor-----------------//
  glPushMatrix();
-glColor3f(0, 1, 0); // Set color to green
+glColor3d(0.333, 0.345, 0.361); // Set color to green
 glTranslatef(0, -2.0, 0.0);
 
 // Define the new length and width
@@ -845,7 +854,7 @@ glPopMatrix();
 //-----------------------------base floor-----------------//
 
 glPushMatrix();
-glColor3f(0, 1, 1); // Set color to green
+glColor3d(0.333, 0.345, 0.361); // Set color to green
 
 // Define the radius of the circular base
 radius = 17.0; // Adjust as needed
@@ -888,6 +897,7 @@ for (int i = 0; i < segments; ++i) {
     glEnd();
 }
 glPopMatrix();
+showScore();
 }
 
 void Cylinder(){
@@ -1037,8 +1047,6 @@ void CAR::Wheels(float Aw)
   glPopMatrix();
 }
 
-
-
 void CAR::SelectModel(int i)
 {
   if (i == 1)
@@ -1053,7 +1061,7 @@ void CAR::SelectModel(int i)
 
 void drawCar(void)
 {
-  glClear(GL_COLOR_BUFFER_BIT);
+
   glClearColor(0, 0, 0, 1.0); // Set background color to white
 
   GLfloat mat_specular[] = { 0.7, 0.8, 0.8, 1.0 };
@@ -1072,6 +1080,7 @@ void drawCar(void)
   CarSymbol();
   car.ExhaustPipes();
   // RoadSlab();
+  // FloorMaker();
 
   glEnd(); // End drawing the polygon
   glFlush();
@@ -1107,9 +1116,14 @@ void createMenu() {
 void display()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glEnable(GL_LIGHT0);
+  glEnable(GL_LIGHT1);
+  glEnable(GL_LIGHT2);
+  glEnable(GL_LIGHT3);
   glLoadIdentity();
 
-  glTranslatef(0, 0, -90);
+  // glTranslatef(10.0, 10.0, -10.0); // Move the cube back along z-axis
+  glTranslatef(0, 2, -90);
   // glRotatef(90, 0, 1, 0);
   glRotatef(rotationX, 1.0, 0.0, 0.0); // Rotate around x-axis
   glRotatef(rotationY, 0.0, 1.0, 0.0); // Rotate around y-axis
@@ -1168,20 +1182,24 @@ void reshape(int width, int height)
   gluPerspective(45, 1, 1.0, 10000);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(30, 10, -940, 0, 0, -90, 0, 1, 0);
+  gluLookAt(30, 10, -940, 0, 2, -90, 0, 1, 0);
 }
 // Initializes 3D rendering
 void initRendering()
 {
   glEnable(GL_DEPTH_TEST);
-  glEnable(GL_COLOR_MATERIAL);
+  glEnable(GL_TEXTURE_2D);
   glEnable(GL_LIGHTING); // Enable lighting
+  glMatrixMode(GL_MODELVIEW);
+  glEnable(GL_COLOR_MATERIAL);
+
   // you can have upto 8 lighting
   glEnable(GL_LIGHT0);     // Enable light #0
   glEnable(GL_LIGHT1);     // Enable light #1
   glEnable(GL_NORMALIZE);  // Automatically normalize normals
   glShadeModel(GL_SMOOTH); // Enable smooth shading
 }
+
 int main(int argc, char **argv)
 {
   glutInit(&argc, argv);
@@ -1189,6 +1207,7 @@ int main(int argc, char **argv)
   glutInitWindowSize(800, 800);
   glutInitWindowPosition(0, 0);
   glutCreateWindow("3D CAR");
+  // load_texture();
   initRendering();
   glEnable(GL_DEPTH_TEST);
   createMenu();
