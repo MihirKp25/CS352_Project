@@ -93,7 +93,7 @@ void CAR::Lights()
     glVertex3f(-40, 5, 10);
     glEnd();
     glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
-
+    
     // bottom face
     glBegin(GL_POLYGON); // RIGHT
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
@@ -110,6 +110,7 @@ void CAR::Lights()
 
   glPopMatrix();
 
+  //--------------
 
   glPushMatrix();
 
@@ -579,41 +580,49 @@ void CAR::Paint()
   glEnd();
   glColor3f(1, 1, 1);
 
-  glColor3f(0.098, 0.098, 0.439);
+  glColor3f(0.286, 0.286, 0.839);
   glBegin(GL_POLYGON); // TOP
   glVertex3f(-14, 0, 4);
+  glColor3f(0.051, 0.051, 0.259);
   glVertex3f(-14, 2, 4);
   glVertex3f(-10, 2, 7);
   glVertex3f(-10, 0, 7);
   glEnd();
 
+  glColor3f(0.098, 0.098, 0.439);
   glBegin(GL_POLYGON); // DOWN
   glVertex3f(-14, 0, -4);
   glVertex3f(-14, 2, -4);
+
   glVertex3f(-10, 2, -7);
+  glColor3f(0.051, 0.051, 0.259);
   glVertex3f(-10, 0, -7);
   glEnd();
 
   //----------------------BACK BUMPPER-----------
   glColor3f(0.098, 0.098, 0.439);
-
   glBegin(GL_POLYGON); // CENTRE
   glVertex3f(12, 0, 3);
   glVertex3f(12, 3, 3);
+glColor4f(0.071, 0.071, 0.212, 1.0);
   glVertex3f(12, 3, -3);
   glVertex3f(12, 0, -3);
   glEnd();
 
+  glColor3f(0.098, 0.098, 0.439);
   glBegin(GL_POLYGON); // TOP
   glVertex3f(12, 0, 3);
   glVertex3f(12, 3, 3);
+glColor4f(0.071, 0.071, 0.212, 1.0);
   glVertex3f(8, 3, 7);
   glVertex3f(8, 0, 7);
   glEnd();
 
+  glColor3f(0.098, 0.098, 0.439);
   glBegin(GL_POLYGON); // DOWN
   glVertex3f(12, 0, -3);
   glVertex3f(12, 3, -3);
+glColor4f(0.071, 0.071, 0.212, 1.0);
   glVertex3f(8, 3, -7);
   glVertex3f(8, 0, -7);
   glEnd();
@@ -644,23 +653,30 @@ void CAR::Paint()
 
   //----------------------BONET-----------
 
-  glColor3f(0.098, 0.098, 0.439);
+  // glColor3f(0.098, 0.098, 0.439);
+  glColor3f(0.141, 0.141, 0.569);
+  
 
   glBegin(GL_POLYGON); // CENTRE
   glVertex3f(-14, 2, 4);
   glVertex3f(-14, 2, -4);
+  glColor3f(0.051, 0.051, 0.259);
   glVertex3f(-7, 4, -5);
   glVertex3f(-7, 4, 5);
   glEnd();
 
+  glColor3f(0.098, 0.098, 0.439);
   glBegin(GL_POLYGON); // TOP
   glVertex3f(-14, 2, 4);
+  glColor3f(0.051, 0.051, 0.259);
   glVertex3f(-10, 2, 7);
   glVertex3f(-7, 4, 5);
   glEnd();
 
+  glColor3f(0.098, 0.098, 0.439);
   glBegin(GL_POLYGON); // DOWN
   glVertex3f(-14, 2, -4);
+  glColor3f(0.051, 0.051, 0.259);
   glVertex3f(-10, 2, -7);
   glVertex3f(-7, 4, -5);
   glEnd();
@@ -670,60 +686,73 @@ void CAR::Paint()
   glColor4f(0.184, 0.310, 0.310, 0.2);
 //-------------------------WINDSCREEN-------------
 
-  // glColor4f(1.0, 1.0, 1.0, 0.2);
+  glColor4f(0.184, 0.310, 0.310, 0.2);
   const float mirdiff[] = {1.0, 1.0, 1.0, 0.5};
 
   glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mirdiff);
   glBegin(GL_POLYGON);
   glVertex3f(-3, 5, 2);
   glVertex3f(-3, 5, -2);
+  glColor4f(0.141, 0.231, 0.231, 1.0);
   glVertex3f(-7, 4, -5); // CENTRE
   glVertex3f(-7, 4, 5);
 
   glEnd();
 
+  glColor4f(0.141, 0.231, 0.231, 1.0);
   glBegin(GL_POLYGON);
   glVertex3f(-3, 5, 2);
   glVertex3f(0, 6, 3);
+  glColor4f(0.184, 0.310, 0.310, 0.2);
   glVertex3f(-7, 4, 5); // C U
 
   glEnd();
 
+  glColor4f(0.141, 0.231, 0.231, 1.0);
   glBegin(GL_POLYGON);
   glVertex3f(-3, 5, -2);
+  glColor4f(0.184, 0.310, 0.310, 0.2);
   glVertex3f(0, 6, -3);
   glVertex3f(-7, 4, -5); // C D
 
   glEnd();
 
+  glColor4f(0.141, 0.231, 0.231, 1.0);
   glBegin(GL_POLYGON); // TOP
   glVertex3f(-7, 4, 5);
   glVertex3f(0, 6, 3);
+  glColor4f(0.184, 0.310, 0.310, 0.2);
   glVertex3f(12, 3, 3);
   glEnd();
 
+  glColor4f(0.141, 0.231, 0.231, 1.0);
   glBegin(GL_POLYGON); // DOWN
   glVertex3f(-7, 4, -5);
   glVertex3f(0, 6, -3);
+  glColor4f(0.184, 0.310, 0.310, 0.2);
   glVertex3f(12, 3, -3);
   glEnd();
 
   //-----------------------ROOF-------------------
-  glColor3f(0.098, 0.098, 0.439);
 
+
+  glColor4f(0.075, 0.075, 0.231, 1.0);
   glBegin(GL_POLYGON); // CENTRE
+  glVertex3f(-3, 5, -2);
   glVertex3f(-3, 5, 2);
+  glColor3f(0.141, 0.141, 0.569);
   glVertex3f(12, 3, 3);
   glVertex3f(12, 3, -3);
-  glVertex3f(-3, 5, -2);
   glEnd();
 
+  glColor3f(0.098, 0.098, 0.439);
   glBegin(GL_POLYGON); // TOP
   glVertex3f(-3, 5, 2);
   glVertex3f(12, 3, 3);
   glVertex3f(0, 6, 3);
   glEnd();
 
+  glColor3f(0.098, 0.098, 0.439);
   glBegin(GL_POLYGON); // DOWN
   glVertex3f(-3, 5, -2);
   glVertex3f(12, 3, -3);
@@ -731,31 +760,38 @@ void CAR::Paint()
   glEnd();
 
   //-----------------------SIDE BODY-------------------
-  glColor3f(0.098, 0.098, 0.439);
 
+  glColor3f(0.098, 0.098, 0.439);
   glBegin(GL_POLYGON); // TOP
   glVertex3f(-10, 2, 7);
   glVertex3f(-7, 4, 5);
   glVertex3f(12, 3, 3);
   glEnd();
 
+  glColor3f(0.098, 0.098, 0.439);
+  
   glBegin(GL_POLYGON);
   glVertex3f(8, 3, 7);
   glVertex3f(12, 3, 3);
+  glColor4f(0.071, 0.071, 0.212, 1.0);
   glVertex3f(-7, 4, 5);
   glEnd();
 
   //-------------
 
+  glColor3f(0.098, 0.098, 0.439);
   glBegin(GL_POLYGON);
   glVertex3f(-10, 2, -7);
   glVertex3f(-7, 4, -5);
+  glColor4f(0.071, 0.071, 0.212, 1.0);
   glVertex3f(12, 3, -3);
   glEnd();
 
+  glColor3f(0.098, 0.098, 0.439);
   glBegin(GL_POLYGON); // DOWN
   glVertex3f(8, 3, -7);
   glVertex3f(12, 3, -3);
+  glColor4f(0.071, 0.071, 0.212, 1.0);
   glVertex3f(-7, 4, -5);
   glEnd();
 
@@ -765,7 +801,10 @@ void CAR::Paint()
   glBegin(GL_POLYGON); // TOP
   glVertex3f(-10, 0, 6);
   glVertex3f(-7, 4, 5);
+
   glVertex3f(8, 3, 6);
+    glColor4f(0.075, 0.075, 0.231, 1.0);
+
   glVertex3f(8, 0, 6);
   glEnd();
 
@@ -794,6 +833,7 @@ void CAR::Paint()
   glBegin(GL_POLYGON);
   glVertex3f(-10, 0, -6);
   glVertex3f(-7, 4, -5);
+    glColor4f(0.075, 0.075, 0.231, 1.0);
   glVertex3f(8, 3, -6);
   glVertex3f(8, 0, -6);
   glEnd();
@@ -1058,17 +1098,7 @@ void CAR::Wheels(float Aw)
   glPopMatrix();
 }
 
-void CAR::SelectModel(int i)
-{
-  if (i == 1)
-    this->Model1();
-  if (i == 2)
-    this->Model2();
-  if (i == 3)
-    this->Model3();
-  if (i == 4)
-    this->Model4();
-}
+
 
 void drawCar(void)
 {
