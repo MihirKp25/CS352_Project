@@ -32,6 +32,10 @@ class CAR
     void Lights();
     void Wheels(float aw);
     void Tyre();
+   //  void Cylinder();
+   //  void CarSymbol();
+    void ExhaustCylinder();
+    void ExhaustPipes();
 
    void DrawCar(float a,float b,float c,float A,float Aw);
 
