@@ -9,73 +9,15 @@
 
 using namespace std;
 
+//Declaration of global variables
+
 int lastX = 0, lastY = 0;
 int rotationX = 0, rotationY = 0;
-int menuWidth = 200; // Width of the menu
+int menuWidth = 200; 
 bool headLightSwitch = false;
 int xview = 0, yview = 0, zview = -80;
 
-void CAR::SetM(float a, float b, float c)
-{
-  M[0] = a;
-  M[1] = b;
-  M[2] = c;
-}
-
-void CAR::SetG(float a, float b, float c)
-{
-  G[0] = a;
-  G[1] = b;
-  G[2] = c;
-  G[3] = 0.5;
-}
-
-void CAR::SetB(float a, float b, float c)
-{
-  B[0] = a;
-  B[1] = b;
-  B[2] = c;
-}
-
-void CAR::SetL(float a, float b, float c)
-{
-  L[0] = a;
-  L[1] = b;
-  L[2] = c;
-}
-
-//-----------------------models------------------------
-
-void CAR::Model1()
-{
-  SetM(1, 0, 0);
-  SetG(0.184, 0.310, 0.310);
-  SetB(0.698, 0.133, 0.133);
-  SetL(1, 1, 0);
-}
-
-void CAR::Model2()
-{
-  SetM(0, 0, 0);
-  SetG(0.184, 0.310, 0.310);
-  SetB(0, 0, 0);
-}
-
-void CAR::Model3()
-{
-  SetM(0.753, 0.753, 0.753);
-  SetG(0.690, 0.769, 0.871);
-  SetB(0.663, 0.663, 0.663);
-  SetL(0.878, 1, 1);
-}
-
-void CAR::Model4()
-{
-  SetM(0.098, 0.098, 0.439);
-  SetG(0.184, 0.310, 0.310);
-  SetB(0.098, 0.098, 0.439);
-  SetL(0.69, 0.769, 0.871);
-}
+//-------------------------Lights positions and color----------------------------------------------------------------------------
 
 void CAR::Lights()
 {
@@ -89,22 +31,32 @@ void CAR::Lights()
   glScalef(0.5, 0.5, 0.5);
   glTranslatef(-13.5, 1, 5);
 
-  glBegin(GL_POLYGON); // LEFT
+  //LEFT LIGHT
+
+  glBegin(GL_POLYGON); 
+
+  // Making it glow
   glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
   GLfloat lightColor0[] = {1, 1, 0, 1.0f}; // Color (0.5, 0.5, 0.5)
   GLfloat lightPos0[] = {-14, 2, 5};       // Positioned at (4, 0, 8)
   glLightfv(GL_LIGHT2, GL_DIFFUSE, lightColor0);
   glLightfv(GL_LIGHT2, GL_POSITION, lightPos0);
+
   glVertex3f(-14, 0, 4);
   glVertex3f(-14, 2, 4);
   glVertex3f(-10, 2, 7);
   glVertex3f(-10, 0, 7);
+
+  //removing glow
   glMaterialfv(GL_FRONT, GL_EMISSION, zero);
   glEnd();
+
+  // Showing effect of headlight
 
   if (headLightSwitch == true)
   {
     // Headlights lights
+
     // front face
     glBegin(GL_POLYGON); // RIGHT
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
@@ -115,6 +67,7 @@ void CAR::Lights()
     glVertex3f(-14, 2, 4);
     glEnd();
     glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
+
     // back face
     glBegin(GL_POLYGON); // RIGHT
     glEnable(GL_BLEND);
@@ -127,6 +80,7 @@ void CAR::Lights()
     glVertex3f(-10, 2, 7);
     glEnd();
     glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
+
     // top face
     glBegin(GL_POLYGON); // RIGHT
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
@@ -139,6 +93,7 @@ void CAR::Lights()
     glVertex3f(-40, 5, 10);
     glEnd();
     glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
+
     // bottom face
     glBegin(GL_POLYGON); // RIGHT
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
@@ -155,7 +110,6 @@ void CAR::Lights()
 
   glPopMatrix();
 
-  //--------------
 
   glPushMatrix();
 
@@ -261,8 +215,12 @@ void CAR::Lights()
   glColor3f(1, 0, 0);
   glPushMatrix();
 
+  float redcolor[4]= {1, 0, 0, 0.2};
+
   glScalef(0.5, 0.5, 0.5);
   glTranslatef(12.5, 1, 0);
+
+  glMaterialfv(GL_FRONT, GL_EMISSION, redcolor);
 
   glBegin(GL_POLYGON); // CENTRE
   glVertex3f(12, 0, 3);
@@ -299,6 +257,7 @@ void CAR::Lights()
   glVertex3f(8, 0, -7);
   glEnd();
 
+  glMaterialfv(GL_FRONT, GL_EMISSION, zero);
   glPopMatrix();
 }
 
@@ -709,7 +668,12 @@ void CAR::Paint()
   //-------------------------WINDSCREEN-------------
 
   glColor4f(0.184, 0.310, 0.310, 0.2);
+//-------------------------WINDSCREEN-------------
 
+  // glColor4f(1.0, 1.0, 1.0, 0.2);
+  const float mirdiff[] = {1.0, 1.0, 1.0, 0.5};
+
+  glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mirdiff);
   glBegin(GL_POLYGON);
   glVertex3f(-3, 5, 2);
   glVertex3f(-3, 5, -2);
@@ -1157,8 +1121,6 @@ void createMenu()
 {
   int mainMenu = glutCreateMenu(menu);
   glutAddMenuEntry("Light headlights", 1);
-  glutAddMenuEntry("Option 2", 2);
-  glutAddMenuEntry("Option 3", 3);
   glutAttachMenu(GLUT_RIGHT_BUTTON); // Attach the menu to the right mouse button
 }
 
@@ -1190,7 +1152,7 @@ void display()
     glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
 
     // Add directed light
-    GLfloat lightColor1[] = {0.5f, 0.2f, 0.2f, 1.0f}; // Color (0.5, 0.2, 0.2)
+    GLfloat lightColor1[] = {1, 1, 1 , 1.0f}; // Color (0.5, 0.2, 0.2)
     // Coming from the direction (-1, 0.5, 0.5)
     //  0 because direced light source
     GLfloat lightPos1[] = {-1.0f, 0.5f, 0.5f, 0.0f};
