@@ -4,7 +4,7 @@ The goal of this project is to develop a 3D model of a car using OpenGL. Basic O
 
 You can preview the car in the image provided below:
 
-![3D Car Model Preview]()
+![3D Car Model Preview](sample.png)
 
 To run this file, follow these steps:
 
