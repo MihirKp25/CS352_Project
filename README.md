@@ -12,7 +12,7 @@ To run this file, follow these steps:
 2. **Install Dependencies:** Install the necessary dependencies to run a simple OpenGL file.
 3. **Compile Source Code:** Compile the `car.cpp` file using the following command:
    ```
-   g++ car.cpp -lglut -lGLU -lGL
+   g++ car.cpp -lglut -lGLU -lGL -o car
    ```
 4. **Execute Program:** Run the compiled program using the following command:
    ```
