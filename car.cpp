@@ -1,10 +1,7 @@
 #include <GL/glut.h>
 #include "car.h"
-#include "road.h"
 #include <stdio.h>
-#include "imageio.h"
 #include <string.h>
-#include <math.h>
 #include <math.h>
 
 using namespace std;
@@ -26,19 +23,16 @@ void CAR::Lights()
   float bgcolor2[4] = {0, 0, 0, 0};
   float zero[] = {0, 0, 0, 1};
 
+  //LEFT LIGHT
   glPushMatrix();
-
   glScalef(0.5, 0.5, 0.5);
   glTranslatef(-13.5, 1, 5);
-
-  //LEFT LIGHT
-
   glBegin(GL_POLYGON); 
 
   // Making it glow
   glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
-  GLfloat lightColor0[] = {1, 1, 0, 1.0f}; // Color (0.5, 0.5, 0.5)
-  GLfloat lightPos0[] = {-14, 2, 5};       // Positioned at (4, 0, 8)
+  GLfloat lightColor0[] = {1, 1, 0, 1.0f}; 
+  GLfloat lightPos0[] = {-14, 2, 5};      
   glLightfv(GL_LIGHT2, GL_DIFFUSE, lightColor0);
   glLightfv(GL_LIGHT2, GL_POSITION, lightPos0);
 
@@ -110,13 +104,13 @@ void CAR::Lights()
 
   glPopMatrix();
 
-
+  // Right Light
   glPushMatrix();
-
   glScalef(0.5, 0.5, 0.5);
   glTranslatef(-13.5, 1, -5);
+  glBegin(GL_POLYGON); 
 
-  glBegin(GL_POLYGON); // RIGHT
+  //Making it glow
   glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
   GLfloat lightColor1[] = {1, 1, 0, 1.0f}; // Color (0.5, 0.5, 0.5)
   GLfloat lightPos1[] = {-14, 2, -5};      // Positioned at (4, 0, 8)
@@ -128,6 +122,8 @@ void CAR::Lights()
   glVertex3f(-10, 0, -7);
   glEnd();
   glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
+
+  //Effect of headlight
 
   if (headLightSwitch == true)
   {
@@ -144,6 +140,7 @@ void CAR::Lights()
     glVertex3f(-14, 2, -4);
     glEnd();
     glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
+
     // back face
     glBegin(GL_POLYGON); // RIGHT
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
@@ -156,6 +153,7 @@ void CAR::Lights()
     glVertex3f(-10, 2, -7);
     glEnd();
     glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
+
     // top face
     glBegin(GL_POLYGON); // RIGHT
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
@@ -168,6 +166,7 @@ void CAR::Lights()
     glVertex3f(-40, 5, -10);
     glEnd();
     glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
+
     // bottom face
     glBegin(GL_POLYGON); // RIGHT
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
@@ -180,23 +179,25 @@ void CAR::Lights()
     glVertex3f(-10, 0, -7);
     glEnd();
     glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
-  }
 
+  }
   glPopMatrix();
 
-  glPushMatrix();
 
+  // Top Right Light
+  glPushMatrix();
   glScalef(0.5, 0.5, 0.5);
   glTranslatef(-12, 3, 5);
-
   glColor3f(1, 1, 1);
-  glBegin(GL_POLYGON); // TOP
+  glBegin(GL_POLYGON); 
   glVertex3f(-14, 2, 4);
   glVertex3f(-10, 2, 7);
   glVertex3f(-7, 4, 5);
   glEnd();
 
   glPopMatrix();
+
+  //Top Left Light
 
   glPushMatrix();
 
@@ -212,14 +213,16 @@ void CAR::Lights()
   glPopMatrix();
 
   //-------------------------------BACKLIGHT------------------------------------------
-  glColor3f(1, 0, 0);
   glPushMatrix();
+
+  //red color backlights
 
   float redcolor[4]= {1, 0, 0, 0.2};
 
   glScalef(0.5, 0.5, 0.5);
   glTranslatef(12.5, 1, 0);
 
+  //making it glow
   glMaterialfv(GL_FRONT, GL_EMISSION, redcolor);
 
   glBegin(GL_POLYGON); // CENTRE
@@ -236,7 +239,7 @@ void CAR::Lights()
   glScalef(0.5, 0.5, 0.5);
   glTranslatef(11, 1, 5);
 
-  glBegin(GL_POLYGON); // TOP
+  glBegin(GL_POLYGON); // Left
   glVertex3f(12, 0, 3);
   glVertex3f(12, 2, 3);
   glVertex3f(8, 2, 7);
@@ -250,16 +253,18 @@ void CAR::Lights()
   glScalef(0.5, 0.5, 0.5);
   glTranslatef(11, 1, -5);
 
-  glBegin(GL_POLYGON); // DOWN
+  glBegin(GL_POLYGON); // Right
   glVertex3f(12, 0, -3);
   glVertex3f(12, 2, -3);
   glVertex3f(8, 2, -7);
   glVertex3f(8, 0, -7);
   glEnd();
 
-  glMaterialfv(GL_FRONT, GL_EMISSION, zero);
+  glMaterialfv(GL_FRONT, GL_EMISSION, zero); //removing the glow
   glPopMatrix();
 }
+
+//---------------------------------------------------------------Wireframe for Our car----------------------------------------------
 
 void CAR::WireFrame()
 {
@@ -438,12 +443,9 @@ void CAR::WireFrame()
   glVertex3f(8, 3, -6);
   glVertex3f(8, 0, -6);
   glEnd();
+
    //-------------------------WINDSCREEN-------------
 
-  // glColor4f(1.0, 1.0, 1.0, 0.2);
-  const float mirdiff[] = {1.0, 1.0, 1.0, 0.5};
-
-  glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mirdiff);
   glBegin(GL_LINE_LOOP);
   glVertex3f(-3, 5, 2);
   glVertex3f(-3, 5, -2);
@@ -480,6 +482,8 @@ void CAR::WireFrame()
 
 }
 
+// ----------------------------draw text function -----------------------------
+
 void drawText(float x, float y, const char *text) {
     glRasterPos2f(x, y);
     while (*text) {
@@ -487,7 +491,7 @@ void drawText(float x, float y, const char *text) {
         ++text;
     }
 }
-
+// --------------------------draw stroke character---------------------------
 void drawStrokeCharacter(float x, float y, float z, char *string) {
     char *c;
     glPushMatrix();
@@ -512,6 +516,8 @@ void drawStrokeCharacter1(float x, float y, float z, char *string) {
     glPopMatrix();
 }
 
+// ---------------------------Heading showcase-----------------------------
+
 void showScore()
 {
     glDisable(GL_LIGHTING);
@@ -528,11 +534,12 @@ void showScore()
 }
 
  
+// --------------------------Painting the car----------------------------------------
 
 void CAR::Paint()
 {
 
-  // glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+  //BASE
 
   glColor3f(0, 0, 0);
 
@@ -558,6 +565,8 @@ void CAR::Paint()
   glEnd();
 
   //-------------------------- FRONT BUMPER--------------
+
+
 
   glColor3f(0.098, 0.098, 0.439);
 
@@ -668,10 +677,9 @@ void CAR::Paint()
   //-------------------------WINDSCREEN-------------
 
   glColor4f(0.184, 0.310, 0.310, 0.2);
-//-------------------------WINDSCREEN-------------
-
-  // glColor4f(1.0, 1.0, 1.0, 0.2);
   const float mirdiff[] = {1.0, 1.0, 1.0, 0.5};
+
+  // Giving glass look
 
   glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mirdiff);
   glBegin(GL_POLYGON);
@@ -779,6 +787,7 @@ void CAR::Paint()
     glVertex3f(-1 + radius * cos(angle), 2.5 + radius * sin(angle), 6);
   }
   glEnd();
+
   // side handle back
   glColor3f(1, 1, 0);
   glBegin(GL_POLYGON);
@@ -800,8 +809,10 @@ void CAR::Paint()
 
   //-----------------------------base floor-----------------//
  glPushMatrix();
-glColor3d(0.333, 0.345, 0.361); // Set color to green
-glTranslatef(0, -2.0, 0.0);
+
+ //base color
+  glColor3d(0.333, 0.345, 0.361); 
+  glTranslatef(0, -2.0, 0.0);
 
   // Define the new length and width
   float length = 45.0; // Adjust as needed
@@ -859,8 +870,8 @@ glTranslatef(0, -2.0, 0.0);
 
   //-----------------------------base floor-----------------//
 
-glPushMatrix();
-glColor3d(0.333, 0.345, 0.361); // Set color to green
+  glPushMatrix();
+  glColor3d(0.333, 0.345, 0.361); // Set color to green
 
   // Define the radius of the circular base
   radius = 17.0; // Adjust as needed
@@ -904,12 +915,16 @@ glColor3d(0.333, 0.345, 0.361); // Set color to green
     glVertex3f(radius * cos(theta2), -1 - height, radius * sin(theta2));
     glVertex3f(radius * cos(theta2), -1, radius * sin(theta2));
     glEnd();
-}
-glPopMatrix();
-showScore();
-}
+  }
+  glPopMatrix();
+  showScore();
+  }
 
-void Cylinder()
+
+
+// --------------------------------------Function to draw cylindes for tyre exhaust and audi symbol-----------------
+
+void CAR::Cylinder()
 {
   GLUquadricObj *p = gluNewQuadric();
 
@@ -923,75 +938,6 @@ void CAR::ExhaustCylinder()
   gluCylinder(q, 5, 5, 7, 100, 100);
   gluDisk(q, 0, 5, 100, 100);
   return;
-}
-
-void CAR::ExhaustPipes()
-{
-  glPushMatrix();
-  float s = 0.09;
-
-  glTranslatef(12, 1, 3.1);
-  glRotatef(90, 0, 1, 0);
-  glScalef(s, s, s);
-  glColor3f(1, 1, 1);
-  ExhaustCylinder();
-
-  glPopMatrix();
-
-  glPushMatrix();
-  s = 0.09;
-  glTranslatef(12, 1, 3.1);
-  glRotatef(90, 0, 1, 0);
-  glScalef(s, s, s);
-  glColor3f(1, 1, 1);
-  glTranslatef(10, 0, 0);
-  ExhaustCylinder();
-
-  glPopMatrix();
-
-  glPushMatrix();
-  s = 0.09;
-  glTranslatef(12, 1, 3.1);
-  glRotatef(90, 0, 1, 0);
-  glScalef(s, s, s);
-  glColor3f(1, 1, 1);
-  glTranslatef(60, 0, 0);
-  ExhaustCylinder();
-
-  glPopMatrix();
-
-  glPushMatrix();
-  s = 0.09;
-  glTranslatef(12, 1, 3.1);
-  glRotatef(90, 0, 1, 0);
-  glScalef(s, s, s);
-  glColor3f(1, 1, 1);
-  glTranslatef(70, 0, 0);
-  ExhaustCylinder();
-
-  glPopMatrix();
-}
-
-void CarSymbol()
-{
-  glPushMatrix();
-  glTranslatef(-14.5, 1, 1);
-  glRotatef(90, 0, 1, 0);
-  glColor3f(1, 1, 1);
-  glScalef(0.05, 0.05, 0.05);
-  Cylinder();
-  glTranslatef(10, 0, 0);
-  Cylinder();
-  glTranslatef(10, 0, 0);
-  Cylinder();
-  glTranslatef(10, 0, 0);
-  Cylinder();
-
-  glTranslatef(-30, 0, 0);
-  glScalef(20, 20, 20);
-  glRotatef(-90, 0, 1, 0);
-  glTranslatef(14.5, -1, -1);
-  glPopMatrix();
 }
 
 void CAR::Tyre()
@@ -1024,6 +970,74 @@ void CAR::Tyre()
   gluPartialDisk(p, 8, 9, 100, 100, 120, 60);
   gluPartialDisk(p, 8, 9, 100, 100, 240, 60);
 }
+
+// ----------------------------------------using those cylinder function------------------------------------------------
+
+void CAR::ExhaustPipes()
+{
+  glPushMatrix();
+  float s = 0.09;
+  glTranslatef(12, 1, 3.1);
+  glRotatef(90, 0, 1, 0);
+  glScalef(s, s, s);
+  glColor3f(1, 1, 1);
+  ExhaustCylinder();
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslatef(12, 1, 3.1);
+  glRotatef(90, 0, 1, 0);
+  glScalef(s, s, s);
+  glColor3f(1, 1, 1);
+  glTranslatef(10, 0, 0);
+  ExhaustCylinder();
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslatef(12, 1, 3.1);
+  glRotatef(90, 0, 1, 0);
+  glScalef(s, s, s);
+  glColor3f(1, 1, 1);
+  glTranslatef(60, 0, 0);
+  ExhaustCylinder();
+  glPopMatrix();
+
+  glPushMatrix();
+  glTranslatef(12, 1, 3.1);
+  glRotatef(90, 0, 1, 0);
+  glScalef(s, s, s);
+  glColor3f(1, 1, 1);
+  glTranslatef(70, 0, 0);
+  ExhaustCylinder();
+  glPopMatrix();
+}
+
+//Audi car symbol
+
+void CAR::CarSymbol()
+{
+  glPushMatrix();
+  glTranslatef(-14.5, 1, 1);
+  glRotatef(90, 0, 1, 0);
+  glColor3f(1, 1, 1);
+  glScalef(0.05, 0.05, 0.05);
+  Cylinder();
+  glTranslatef(10, 0, 0);
+  Cylinder();
+  glTranslatef(10, 0, 0);
+  Cylinder();
+  glTranslatef(10, 0, 0);
+  Cylinder();
+
+  //reseting the transformnations
+  glTranslatef(-30, 0, 0);
+  glScalef(20, 20, 20);
+  glRotatef(-90, 0, 1, 0);
+  glTranslatef(14.5, -1, -1);
+  glPopMatrix();
+}
+
+
 
 void CAR::Wheels(float Aw)
 {
@@ -1058,22 +1072,13 @@ void CAR::Wheels(float Aw)
   glPopMatrix();
 }
 
-void CAR::SelectModel(int i)
-{
-  if (i == 1)
-    this->Model1();
-  if (i == 2)
-    this->Model2();
-  if (i == 3)
-    this->Model3();
-  if (i == 4)
-    this->Model4();
-}
 
 void drawCar(void)
 {
 
   glClearColor(0, 0, 0, 1.0); // Set background color to white
+
+  //giving material properties to car body
 
   GLfloat mat_specular[] = {0.7, 0.8, 0.8, 1.0};
   GLfloat mat_shininess[] = {50.0};
@@ -1082,16 +1087,15 @@ void drawCar(void)
   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
   glShadeModel(GL_SMOOTH);
+
+
   CAR car;
-  // car.SelectModel(4);
   car.Lights();
-  // car.WireFrame();
+  // car.WireFrame(); //Basic skeleton for car
   car.Paint();
   car.Wheels(0);
-  CarSymbol();
+  car.CarSymbol();
   car.ExhaustPipes();
-  // RoadSlab();
-  // FloorMaker();
 
   glEnd(); // End drawing the polygon
   glFlush();
@@ -1120,7 +1124,7 @@ void menu(int value)
 void createMenu()
 {
   int mainMenu = glutCreateMenu(menu);
-  glutAddMenuEntry("Light headlights", 1);
+  glutAddMenuEntry("Switch headlights", 1);
   glutAttachMenu(GLUT_RIGHT_BUTTON); // Attach the menu to the right mouse button
 }
 
@@ -1133,11 +1137,12 @@ void display()
   glEnable(GL_LIGHT3);
   glLoadIdentity();
 
-  // glTranslatef(10.0, 10.0, -10.0); // Move the cube back along z-axis
+  //initial translation of objects 
   glTranslatef(0, 2, -90);
-  // glRotatef(90, 0, 1, 0);
   glRotatef(rotationX, 1.0, 0.0, 0.0); // Rotate around x-axis
   glRotatef(rotationY, 0.0, 1.0, 0.0); // Rotate around y-axis
+
+  //Ambient color
 
   GLfloat ambientColor[] = {0.2f, 0.2f, 0.2f, 1.0f}; // Color (0.2, 0.2, 0.2) and intensity //can be greater than 1 so not like color
   glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
@@ -1146,15 +1151,13 @@ void display()
   {
 
     // Add positioned light
-    GLfloat lightColor0[] = {1, 1, 1, 1.0f};        // Color (0.5, 0.5, 0.5)
-    GLfloat lightPos0[] = {4.0f, 0.0f, 8.0f, 1.0f}; // Positioned at (4, 0, 8)
+    GLfloat lightColor0[] = {1, 1, 1, 1.0f};        
+    GLfloat lightPos0[] = {4.0f, 0.0f, 8.0f, 1.0f};
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
     glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
 
     // Add directed light
-    GLfloat lightColor1[] = {1, 1, 1 , 1.0f}; // Color (0.5, 0.2, 0.2)
-    // Coming from the direction (-1, 0.5, 0.5)
-    //  0 because direced light source
+    GLfloat lightColor1[] = {1, 1, 1 , 1.0f}; 
     GLfloat lightPos1[] = {-1.0f, 0.5f, 0.5f, 0.0f};
     glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
     glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
@@ -1164,6 +1167,8 @@ void display()
 
   glFlush();
 }
+
+// ------------------------------------mouse rotation----------------------------------
 
 void mouse(int button, int state, int x, int y)
 {
@@ -1185,6 +1190,8 @@ void motion(int x, int y)
   glutPostRedisplay();
 }
 
+// ----------------------------------------viewport transformation-----------------------------
+
 void reshape(int width, int height)
 {
   glViewport(0, 0, width, height);
@@ -1195,7 +1202,9 @@ void reshape(int width, int height)
   glLoadIdentity();
   gluLookAt(30, 10, -940, 0, 2, -90, 0, 1, 0);
 }
-// Initializes 3D rendering
+
+
+//---------------------------------------- Initializes 3D rendering------------------------
 void initRendering()
 {
   glEnable(GL_DEPTH_TEST);
@@ -1211,6 +1220,8 @@ void initRendering()
   glShadeModel(GL_SMOOTH); // Enable smooth shading
 }
 
+// ------------------------------------main function------------------------
+
 int main(int argc, char **argv)
 {
   glutInit(&argc, argv);
@@ -1218,7 +1229,6 @@ int main(int argc, char **argv)
   glutInitWindowSize(800, 800);
   glutInitWindowPosition(0, 0);
   glutCreateWindow("3D CAR");
-  // load_texture();
   initRendering();
   glEnable(GL_DEPTH_TEST);
   createMenu();

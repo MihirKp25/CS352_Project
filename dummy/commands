@@ -1,3 +1,0 @@
-sudo apt-get install libpng-dev
-sudo apt-get install libtiff-dev
-g++ filename.cpp -lglut -lGLU -lGL imageio.o -ltiff -lpng
