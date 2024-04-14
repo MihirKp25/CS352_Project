@@ -1,11 +1,30 @@
 #include <GL/glut.h>
 #include "car.h"
 #include "road.h"
+#include <stdio.h>
+#include "imageio.h"
+#include <string.h>
+#include <math.h>
 
 using namespace std;
 
 int lastX = 0, lastY = 0;
 int rotationX = 0, rotationY = 0;
+unsigned char *image;
+int width, height, bpp;
+
+int texImageWidth;
+int texImageHeight;
+
+GLubyte *makeTexImage(char *file)
+{
+  int width, height;
+  GLubyte *texImage;
+  texImage = loadImageRGBA((char *)file, &width, &height);
+  texImageWidth = width;
+  texImageHeight = height;
+  return texImage;
+}
 
 void CAR::SetM(float a, float b, float c)
 {
@@ -397,8 +416,56 @@ void CAR::WireFrame()
   glEnd();
 }
 
+void drawText(float x, float y, const char *text) {
+    glRasterPos2f(x, y);
+    while (*text) {
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *text);
+        ++text;
+    }
+}
+
+void drawStrokeCharacter(float x, float y, float z, char *string) {
+    char *c;
+    glPushMatrix();
+    glScalef(0.02, 0.02, 1); // Adjust scale for 50px text size
+    glLineWidth(10.0); // Set line width for extra bold effect
+    glTranslatef(x, y, z / 1000);
+    for (c = string; *c != '\0'; c++) {
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, *c);
+    }
+    glPopMatrix();
+}
+
+void drawStrokeCharacter1(float x, float y, float z, char *string) {
+    char *c;
+    glPushMatrix();
+    glScalef(0.01, 0.01, 1); // Adjust scale for 50px text size
+    glLineWidth(10.0); // Set line width for extra bold effect
+    glTranslatef(x, y, z / 1000);
+    for (c = string; *c != '\0'; c++) {
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, *c);
+    }
+    glPopMatrix();
+}
+
+void showScore()
+{
+    glDisable(GL_LIGHTING);
+    char *tempString = new char[40];
+    snprintf(tempString, 40, "CS352 Project");
+    glColor3d(1, 1, 1);
+    drawStrokeCharacter(-200, 1000, -20000, tempString);
+
+    snprintf(tempString, 40, "Mihir Jayant Samip");
+    glColor3d(1, 1, 1);
+    drawStrokeCharacter1(-200, 1800, -20000, tempString);
+    delete tempString;
+    glEnable(GL_LIGHTING);
+}
 void CAR::Paint()
 {
+
+  // glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 
   glColor3f(0, 0, 0);
 
@@ -624,7 +691,193 @@ void CAR::Paint()
   glVertex3f(8, 3, -6);
   glVertex3f(8, 0, -6);
   glEnd();
+
+ //-----------------------------base floor-----------------//
+ glPushMatrix();
+glColor3d(0.333, 0.345, 0.361);
+glTranslatef(0, -2.0, 0.0);
+
+// Define the new length and width
+float length = 45.0; // Adjust as needed
+float width = 45.0;  // Adjust as needed
+
+// Draw the top face
+glBegin(GL_POLYGON);
+glVertex3f(length / 2, -1, width / 2);   // c
+glVertex3f(-length / 2, -1, width / 2);  // br
+glVertex3f(-length / 2, -1, -width / 2); // a
+glVertex3f(length / 2, -1, -width / 2);  // d
+glEnd();
+
+// Draw the bottom face
+glBegin(GL_POLYGON);
+glVertex3f(length / 2, -2, width / 2);   // c'
+glVertex3f(-length / 2, -2, width / 2);  // br'
+glVertex3f(-length / 2, -2, -width / 2); // a'
+glVertex3f(length / 2, -2, -width / 2);  // d'
+glEnd();
+
+// Draw the front face
+glBegin(GL_POLYGON);
+glVertex3f(length / 2, -1, width / 2);  // c
+glVertex3f(length / 2, -2, width / 2);  // c'
+glVertex3f(length / 2, -2, -width / 2); // d'
+glVertex3f(length / 2, -1, -width / 2); // d
+glEnd();
+
+// Draw the back face
+glBegin(GL_POLYGON);
+glVertex3f(-length / 2, -1, width / 2);  // br
+glVertex3f(-length / 2, -2, width / 2);  // br'
+glVertex3f(-length / 2, -2, -width / 2); // a'
+glVertex3f(-length / 2, -1, -width / 2); // a
+glEnd();
+
+// Draw the left face
+glBegin(GL_POLYGON);
+glVertex3f(-length / 2, -1, width / 2); // br
+glVertex3f(-length / 2, -2, width / 2); // br'
+glVertex3f(length / 2, -2, width / 2);  // c'
+glVertex3f(length / 2, -1, width / 2);  // c
+glEnd();
+
+// Draw the right face
+glBegin(GL_POLYGON);
+glVertex3f(-length / 2, -1, -width / 2); // a
+glVertex3f(-length / 2, -2, -width / 2); // a'
+glVertex3f(length / 2, -2, -width / 2);  // d'
+glVertex3f(length / 2, -1, -width / 2);  // d
+glEnd();
+
+glPopMatrix();
+
+
+//-----------------------------base floor-----------------//
+
+glPushMatrix();
+glColor3d(0.333, 0.345, 0.361);
+
+// Define the radius of the circular base
+float radius = 17.0; // Adjust as needed
+
+// Define the number of segments for the circle
+int segments = 50; // Adjust as needed
+
+// Define the height of the circular base
+float height = 3.0; // Adjust as needed
+
+// Draw the top face
+glBegin(GL_POLYGON);
+for (int i = 0; i < segments; ++i) {
+    float theta = 2.0 * M_PI * i / segments;
+    glVertex3f(radius * cos(theta), -1, radius * sin(theta));
 }
+glEnd();
+
+// Draw the bottom face
+glBegin(GL_POLYGON);
+for (int i = 0; i < segments; ++i) {
+    float theta = 2.0 * M_PI * i / segments;
+    glVertex3f(radius * cos(theta), -1 - height, radius * sin(theta));
+}
+glEnd();
+
+// Draw the side faces
+glColor3f(0.6, 1, 1); // Set color to green
+
+for (int i = 0; i < segments; ++i) {
+    float theta1 = 2.0 * M_PI * i / segments;
+    float theta2 = 2.0 * M_PI * (i + 1) / segments;
+    
+    // Draw each side face
+    glBegin(GL_POLYGON);
+    glVertex3f(radius * cos(theta1), -1, radius * sin(theta1));
+    glVertex3f(radius * cos(theta1), -1 - height, radius * sin(theta1));
+    glVertex3f(radius * cos(theta2), -1 - height, radius * sin(theta2));
+    glVertex3f(radius * cos(theta2), -1, radius * sin(theta2));
+    glEnd();
+}
+glPopMatrix();
+
+
+showScore();
+  // //--------------------SIGNBOARD--------------------
+
+  // glPushMatrix(); // Save the current matrix
+  // glTranslatef(15, 10.0, 0.0);
+  // glRotatef(90, 0.0, 1.0, 0.0); // Rotate around the y-axis by 'angle' degrees
+
+  // glColor3f(1.0, 1.0, 1.0); // Set color to white for the signboard
+
+  // // Define the height of the signboard
+  // float signboardHeight = 15.0; // Adjust as needed
+
+  // // Draw the front face of the signboard with increased height
+  // glBegin(GL_POLYGON);
+  // glVertex3f(-15, 8, 4);               // Top left
+  // glVertex3f(-15, signboardHeight, 4); // Top right
+  // glVertex3f(15, signboardHeight, 4);  // Bottom right
+  // glVertex3f(15, 8, 4);                // Bottom left
+  // glEnd();
+
+  // // Draw the rest of the signboard with the adjusted height
+  // // Draw the back face of the signboard
+  // glBegin(GL_POLYGON);
+  // glVertex3f(-15, 8, 3.8);               // Top left
+  // glVertex3f(-15, signboardHeight, 3.8); // Top right
+  // glVertex3f(15, signboardHeight, 3.8);  // Bottom right
+  // glVertex3f(15, 8, 3.8);                // Bottom left
+  // glEnd();
+
+  // // Draw the left side of the signboard
+  // glBegin(GL_POLYGON);
+  // glVertex3f(-15, 8, 4);                 // Top
+  // glVertex3f(-15, signboardHeight, 4);   // Bottom
+  // glVertex3f(-15, signboardHeight, 3.8); // Bottom
+  // glVertex3f(-15, 8, 3.8);               // Top
+  // glEnd();
+
+  // // Draw the right side of the signboard
+  // glBegin(GL_POLYGON);
+  // glVertex3f(15, 8, 4);                 // Top
+  // glVertex3f(15, signboardHeight, 4);   // Bottom
+  // glVertex3f(15, signboardHeight, 3.8); // Bottom
+  // glVertex3f(15, 8, 3.8);               // Top
+  // glEnd();
+
+  // // Draw the top face of the signboard
+  // glBegin(GL_POLYGON);
+  // glVertex3f(-15, signboardHeight, 4);   // Top left
+  // glVertex3f(15, signboardHeight, 4);    // Top right
+  // glVertex3f(15, signboardHeight, 3.8);  // Bottom right
+  // glVertex3f(-15, signboardHeight, 3.8); // Bottom left
+  // glEnd();
+
+  // // Draw the bottom face of the signboard
+  // glBegin(GL_POLYGON);
+  // glVertex3f(-15, 8, 4);   // Top left
+  // glVertex3f(15, 8, 4);    // Top right
+  // glVertex3f(15, 8, 3.8);  // Bottom right
+  // glVertex3f(-15, 8, 3.8); // Bottom left
+  // glEnd();
+
+  // glPopMatrix(); // Restore the previous matrix
+
+  // glPushMatrix();
+  // glTranslatef(20, 12, -7);
+  // glRotatef(90, 1.0, 0.0, .0); // Rotate around the y-axis by 'angle' degrees
+  // // Draw the cylindrical support
+  // GLUquadricObj *cylinder = gluNewQuadric();    // Create a new quadric object for the cylinder
+  // gluQuadricDrawStyle(cylinder, GLU_FILL);      // Set the drawing style to fill
+  // gluQuadricNormals(cylinder, GLU_SMOOTH);      // Enable smooth normals for shading
+  // glColor3f(0.5, 0.5, 0.5);                     // Set color to gray for the cylinder
+  // glTranslatef(0.0, signboardHeight / 2, -7.0); // Translate to the midpoint of the signboard height
+  // gluCylinder(cylinder, 1.0, 1.0, 20, 20, 20);  // Draw the cylinder as the support
+
+  // glPopMatrix(); // Restore the previous matrix
+}
+
+//-----------------------------base floor-----------------//
 void CAR::Tyre()
 {
 
@@ -689,6 +942,7 @@ void CAR::Wheels(float Aw)
   glPopMatrix();
 }
 
+
 void CAR::SelectModel(int i)
 {
   if (i == 1)
@@ -703,8 +957,9 @@ void CAR::SelectModel(int i)
 
 void drawCar(void)
 {
-  glClear(GL_COLOR_BUFFER_BIT);
+
   glClearColor(0, 0, 0, 1.0); // Set background color to white
+
   CAR car;
   car.SelectModel(1);
   car.Lights();
@@ -712,19 +967,25 @@ void drawCar(void)
   car.Paint();
   car.Wheels(0);
   // RoadSlab();
+  // FloorMaker();
 
   glEnd(); // End drawing the polygon
   glFlush();
+  glutSwapBuffers();
 }
 
 void display()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glEnable(GL_LIGHT0);
+  glEnable(GL_LIGHT1);
+  glEnable(GL_LIGHT2);
+  glEnable(GL_LIGHT3);
   glLoadIdentity();
 
   // glTranslatef(10.0, 10.0, -10.0); // Move the cube back along z-axis
   glTranslatef(0, 2, -90);
-  glRotatef(90, 0, 1, 0);
+  // glRotatef(90, 0, 1, 0);
   glRotatef(rotationX, 1.0, 0.0, 0.0); // Rotate around x-axis
   glRotatef(rotationY, 0.0, 1.0, 0.0); // Rotate around y-axis
 
@@ -779,19 +1040,43 @@ void reshape(int width, int height)
   gluPerspective(45.0, 1, 1.0, 10000);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(30, 10, -940, 0, 2, -90, 0, 1, 0);
+  gluLookAt(300, -1000, -1940, 0, -200, 5000, 1, 0, 0);
 }
 // Initializes 3D rendering
 void initRendering()
 {
   glEnable(GL_DEPTH_TEST);
-  glEnable(GL_COLOR_MATERIAL);
+  glEnable(GL_TEXTURE_2D);
   glEnable(GL_LIGHTING); // Enable lighting
+  glMatrixMode(GL_MODELVIEW);
+  glEnable(GL_COLOR_MATERIAL);
+
   // you can have upto 8 lighting
   glEnable(GL_LIGHT0);     // Enable light #0
   glEnable(GL_LIGHT1);     // Enable light #1
   glEnable(GL_NORMALIZE);  // Automatically normalize normals
   glShadeModel(GL_SMOOTH); // Enable smooth shading
+}
+void load_texture()
+{
+  // image = stbi_load("texture.jpg", &width, &height, &bpp, 3);
+  unsigned int texture;
+  glGenTextures(1, &texture);
+  GLubyte *texImage = makeTexImage((char *)"color.png");
+  if (!texImage)
+  {
+    printf("\nError reading image \n");
+    return;
+  }
+  glBindTexture(GL_TEXTURE_2D, texture);
+  // set the texture wrapping/filtering options (on the currently bound texture object)
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImageWidth, texImageWidth, 0, GL_RGBA, GL_UNSIGNED_BYTE, texImage);
+  delete texImage;
 }
 int main(int argc, char **argv)
 {
@@ -800,6 +1085,7 @@ int main(int argc, char **argv)
   glutInitWindowSize(800, 800);
   glutInitWindowPosition(0, 0);
   glutCreateWindow("3D CAR");
+  load_texture();
   initRendering();
   glEnable(GL_DEPTH_TEST);
   glutDisplayFunc(display);
