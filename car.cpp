@@ -8,9 +8,8 @@ using namespace std;
 int lastX = 0, lastY = 0;
 int rotationX = 0, rotationY = 0;
 int menuWidth = 200; // Width of the menu
-bool headLightSwitch=false;
+bool headLightSwitch = false;
 int xview = 0, yview = 0, zview = -80;
-
 
 void CAR::SetM(float a, float b, float c)
 {
@@ -74,16 +73,12 @@ void CAR::Model4()
   SetL(0.69, 0.769, 0.871);
 }
 
-
-
 void CAR::Lights()
 {
 
-  
-
-  float bgcolor[4] = { 1, 1, 1, 0.2 };
-  float bgcolor2[4] = { 0, 0, 0, 0.5 };
-  float zero[] = { 0, 0, 0, 1 };
+  float bgcolor[4] = {1, 1, 1, 0.2};
+  float bgcolor2[4] = {0, 0, 0, 0};
+  float zero[] = {0, 0, 0, 1};
 
   glPushMatrix();
 
@@ -92,6 +87,10 @@ void CAR::Lights()
 
   glBegin(GL_POLYGON); // LEFT
   glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
+  GLfloat lightColor0[] = {1, 1, 0, 1.0f}; // Color (0.5, 0.5, 0.5)
+  GLfloat lightPos0[] = {-14, 2, 5};       // Positioned at (4, 0, 8)
+  glLightfv(GL_LIGHT2, GL_DIFFUSE, lightColor0);
+  glLightfv(GL_LIGHT2, GL_POSITION, lightPos0);
   glVertex3f(-14, 0, 4);
   glVertex3f(-14, 2, 4);
   glVertex3f(-10, 2, 7);
@@ -99,57 +98,56 @@ void CAR::Lights()
   glMaterialfv(GL_FRONT, GL_EMISSION, zero);
   glEnd();
 
-  if(headLightSwitch==true){
-    //Headlights lights
-  //front face
-  glBegin(GL_POLYGON); // RIGHT
-  glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
-  glVertex3f(-40, 5, 1);
-  glVertex3f(-40, -3, 1);
-  glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
-  glVertex3f(-14, 0, 4);
-  glVertex3f(-14, 2, 4);
-  glEnd();
-  glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
-  //back face
-  glBegin(GL_POLYGON); // RIGHT
-  glEnable(GL_BLEND);
-glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-  glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
-  glVertex3f(-40, 5, 10);
-  glVertex3f(-40, -3, 10);
-  glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
-  glVertex3f(-10, 0, 7);
-  glVertex3f(-10, 2, 7);
-  glEnd();
-  glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
-  //top face
-  glBegin(GL_POLYGON); // RIGHT
-  glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
-  glEnable(GL_BLEND);
-glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-  glVertex3f(-10, 2, 7);
-  glVertex3f(-14, 2, 4);
-  glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
-  glVertex3f(-40, 5, 1);
-  glVertex3f(-40, 5, 10);
-  glEnd();
-  glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
-  //bottom face
-  glBegin(GL_POLYGON); // RIGHT
-  glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
-  glEnable(GL_BLEND);
-glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-  glVertex3f(-40, -3, 10);
-  glVertex3f(-40, -3, 1);
-  glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
-  glVertex3f(-14, 0, 4);
-  glVertex3f(-10, 0, 7);
-  glEnd();
-  glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
-
+  if (headLightSwitch == true)
+  {
+    // Headlights lights
+    // front face
+    glBegin(GL_POLYGON); // RIGHT
+    glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
+    glVertex3f(-40, 5, 1);
+    glVertex3f(-40, -3, 1);
+    glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
+    glVertex3f(-14, 0, 4);
+    glVertex3f(-14, 2, 4);
+    glEnd();
+    glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
+    // back face
+    glBegin(GL_POLYGON); // RIGHT
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
+    glVertex3f(-40, 5, 10);
+    glVertex3f(-40, -3, 10);
+    glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
+    glVertex3f(-10, 0, 7);
+    glVertex3f(-10, 2, 7);
+    glEnd();
+    glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
+    // top face
+    glBegin(GL_POLYGON); // RIGHT
+    glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glVertex3f(-10, 2, 7);
+    glVertex3f(-14, 2, 4);
+    glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
+    glVertex3f(-40, 5, 1);
+    glVertex3f(-40, 5, 10);
+    glEnd();
+    glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
+    // bottom face
+    glBegin(GL_POLYGON); // RIGHT
+    glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glVertex3f(-40, -3, 10);
+    glVertex3f(-40, -3, 1);
+    glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
+    glVertex3f(-14, 0, 4);
+    glVertex3f(-10, 0, 7);
+    glEnd();
+    glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
   }
-  
 
   glPopMatrix();
 
@@ -160,11 +158,12 @@ glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
   glScalef(0.5, 0.5, 0.5);
   glTranslatef(-13.5, 1, -5);
 
-  
-
-
   glBegin(GL_POLYGON); // RIGHT
   glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
+  GLfloat lightColor1[] = {1, 1, 0, 1.0f}; // Color (0.5, 0.5, 0.5)
+  GLfloat lightPos1[] = {-14, 2, -5};      // Positioned at (4, 0, 8)
+  glLightfv(GL_LIGHT3, GL_DIFFUSE, lightColor1);
+  glLightfv(GL_LIGHT3, GL_POSITION, lightPos1);
   glVertex3f(-14, 0, -4);
   glVertex3f(-14, 2, -4);
   glVertex3f(-10, 2, -7);
@@ -172,13 +171,14 @@ glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
   glEnd();
   glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
 
-  if(headLightSwitch==true){
-      //Headlights lights
-    //front face
+  if (headLightSwitch == true)
+  {
+    // Headlights lights
+    // front face
     glBegin(GL_POLYGON); // RIGHT
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
     glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glVertex3f(-40, 5, -1);
     glVertex3f(-40, -3, -1);
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
@@ -186,11 +186,11 @@ glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     glVertex3f(-14, 2, -4);
     glEnd();
     glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
-    //back face
+    // back face
     glBegin(GL_POLYGON); // RIGHT
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
     glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glVertex3f(-40, 5, -10);
     glVertex3f(-40, -3, -10);
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
@@ -198,11 +198,11 @@ glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     glVertex3f(-10, 2, -7);
     glEnd();
     glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
-    //top face
+    // top face
     glBegin(GL_POLYGON); // RIGHT
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
     glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glVertex3f(-10, 2, -7);
     glVertex3f(-14, 2, -4);
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
@@ -210,11 +210,11 @@ glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     glVertex3f(-40, 5, -10);
     glEnd();
     glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
-    //bottom face
+    // bottom face
     glBegin(GL_POLYGON); // RIGHT
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor2);
     glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glVertex3f(-40, -3, -10);
     glVertex3f(-40, -3, -1);
     glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
@@ -222,9 +222,8 @@ glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     glVertex3f(-10, 0, -7);
     glEnd();
     glMaterialfv(GL_FRONT, GL_EMISSION, zero); // Turn off emission color!
-
   }
-  
+
   glPopMatrix();
 
   glPushMatrix();
@@ -232,7 +231,6 @@ glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
   glScalef(0.5, 0.5, 0.5);
   glTranslatef(-12, 3, 5);
 
-  
   glColor3f(1, 1, 1);
   glBegin(GL_POLYGON); // TOP
   glVertex3f(-14, 2, 4);
@@ -413,7 +411,7 @@ void CAR::WireFrame()
   glVertex3f(-7, 4, -5);
   glEnd();
 
-    //-----------------------ROOF-------------------
+  //-----------------------ROOF-------------------
 
   glBegin(GL_LINE_LOOP); // CENTRE
   glVertex3f(-3, 5, 2);
@@ -480,9 +478,8 @@ void CAR::WireFrame()
 
   //-------------------------WINDSCREEN-------------
 
-
-// glColor4f(1.0, 1.0, 1.0, 0.2);
-const float mirdiff[] = {1.0,1.0,1.0,0.5};
+  // glColor4f(1.0, 1.0, 1.0, 0.2);
+  const float mirdiff[] = {1.0, 1.0, 1.0, 0.5};
 
   glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mirdiff);
   glBegin(GL_LINE_LOOP);
@@ -518,8 +515,6 @@ const float mirdiff[] = {1.0,1.0,1.0,0.5};
   glVertex3f(0, 6, -3);
   glVertex3f(12, 3, -3);
   glEnd();
-
-
 }
 
 void CAR::Paint()
@@ -560,7 +555,7 @@ void CAR::Paint()
   glEnd();
 
   // mettalic part
-  
+
   glColor3f(0, 0, 0);
   glBegin(GL_POLYGON); // CENTRE
   glVertex3f(-14.05, 0.5, 3);
@@ -755,24 +750,26 @@ void CAR::Paint()
   glVertex3f(8, 0, 6);
   glEnd();
 
-  //side handle front
+  // side handle front
   glColor3f(1, 1, 0);
-glBegin(GL_POLYGON);
-float radius = 0.5;
-for (int i = 0; i <= 180; i++) {
+  glBegin(GL_POLYGON);
+  float radius = 0.5;
+  for (int i = 0; i <= 180; i++)
+  {
     float angle = i * M_PI / 180.0;
     glVertex3f(-1 + radius * cos(angle), 2.5 + radius * sin(angle), 6);
-}
-glEnd();
-  //side handle back
+  }
+  glEnd();
+  // side handle back
   glColor3f(1, 1, 0);
-glBegin(GL_POLYGON);
-radius = 0.5;
-for (int i = 0; i <= 180; i++) {
+  glBegin(GL_POLYGON);
+  radius = 0.5;
+  for (int i = 0; i <= 180; i++)
+  {
     float angle = i * M_PI / 180.0;
     glVertex3f(-1 + radius * cos(angle), 2.5 + radius * sin(angle), -6);
-}
-glEnd();
+  }
+  glEnd();
 
   glColor3f(0.098, 0.098, 0.439);
   glBegin(GL_POLYGON);
@@ -783,102 +780,104 @@ glEnd();
   glEnd();
 
   //-----------------------------base floor-----------------//
- glPushMatrix();
-glColor3f(0, 1, 0); // Set color to green
-glTranslatef(0, -2.0, 0.0);
+  glPushMatrix();
+  glColor3f(0, 1, 0); // Set color to green
+  glTranslatef(0, -2.0, 0.0);
 
-// Define the new length and width
-float length = 45.0; // Adjust as needed
-float width = 45.0;  // Adjust as needed
+  // Define the new length and width
+  float length = 45.0; // Adjust as needed
+  float width = 45.0;  // Adjust as needed
 
-// Draw the top face
-glBegin(GL_POLYGON);
-glVertex3f(length / 2, -1, width / 2);   // c
-glVertex3f(-length / 2, -1, width / 2);  // br
-glVertex3f(-length / 2, -1, -width / 2); // a
-glVertex3f(length / 2, -1, -width / 2);  // d
-glEnd();
+  // Draw the top face
+  glBegin(GL_POLYGON);
+  glVertex3f(length / 2, -1, width / 2);   // c
+  glVertex3f(-length / 2, -1, width / 2);  // br
+  glVertex3f(-length / 2, -1, -width / 2); // a
+  glVertex3f(length / 2, -1, -width / 2);  // d
+  glEnd();
 
-// Draw the bottom face
-glBegin(GL_POLYGON);
-glVertex3f(length / 2, -2, width / 2);   // c'
-glVertex3f(-length / 2, -2, width / 2);  // br'
-glVertex3f(-length / 2, -2, -width / 2); // a'
-glVertex3f(length / 2, -2, -width / 2);  // d'
-glEnd();
+  // Draw the bottom face
+  glBegin(GL_POLYGON);
+  glVertex3f(length / 2, -2, width / 2);   // c'
+  glVertex3f(-length / 2, -2, width / 2);  // br'
+  glVertex3f(-length / 2, -2, -width / 2); // a'
+  glVertex3f(length / 2, -2, -width / 2);  // d'
+  glEnd();
 
-// Draw the front face
-glBegin(GL_POLYGON);
-glVertex3f(length / 2, -1, width / 2);  // c
-glVertex3f(length / 2, -2, width / 2);  // c'
-glVertex3f(length / 2, -2, -width / 2); // d'
-glVertex3f(length / 2, -1, -width / 2); // d
-glEnd();
+  // Draw the front face
+  glBegin(GL_POLYGON);
+  glVertex3f(length / 2, -1, width / 2);  // c
+  glVertex3f(length / 2, -2, width / 2);  // c'
+  glVertex3f(length / 2, -2, -width / 2); // d'
+  glVertex3f(length / 2, -1, -width / 2); // d
+  glEnd();
 
-// Draw the back face
-glBegin(GL_POLYGON);
-glVertex3f(-length / 2, -1, width / 2);  // br
-glVertex3f(-length / 2, -2, width / 2);  // br'
-glVertex3f(-length / 2, -2, -width / 2); // a'
-glVertex3f(-length / 2, -1, -width / 2); // a
-glEnd();
+  // Draw the back face
+  glBegin(GL_POLYGON);
+  glVertex3f(-length / 2, -1, width / 2);  // br
+  glVertex3f(-length / 2, -2, width / 2);  // br'
+  glVertex3f(-length / 2, -2, -width / 2); // a'
+  glVertex3f(-length / 2, -1, -width / 2); // a
+  glEnd();
 
-// Draw the left face
-glBegin(GL_POLYGON);
-glVertex3f(-length / 2, -1, width / 2); // br
-glVertex3f(-length / 2, -2, width / 2); // br'
-glVertex3f(length / 2, -2, width / 2);  // c'
-glVertex3f(length / 2, -1, width / 2);  // c
-glEnd();
+  // Draw the left face
+  glBegin(GL_POLYGON);
+  glVertex3f(-length / 2, -1, width / 2); // br
+  glVertex3f(-length / 2, -2, width / 2); // br'
+  glVertex3f(length / 2, -2, width / 2);  // c'
+  glVertex3f(length / 2, -1, width / 2);  // c
+  glEnd();
 
-// Draw the right face
-glBegin(GL_POLYGON);
-glVertex3f(-length / 2, -1, -width / 2); // a
-glVertex3f(-length / 2, -2, -width / 2); // a'
-glVertex3f(length / 2, -2, -width / 2);  // d'
-glVertex3f(length / 2, -1, -width / 2);  // d
-glEnd();
+  // Draw the right face
+  glBegin(GL_POLYGON);
+  glVertex3f(-length / 2, -1, -width / 2); // a
+  glVertex3f(-length / 2, -2, -width / 2); // a'
+  glVertex3f(length / 2, -2, -width / 2);  // d'
+  glVertex3f(length / 2, -1, -width / 2);  // d
+  glEnd();
 
-glPopMatrix();
+  glPopMatrix();
 
+  //-----------------------------base floor-----------------//
 
-//-----------------------------base floor-----------------//
+  glPushMatrix();
+  glColor3f(0, 1, 1); // Set color to green
 
-glPushMatrix();
-glColor3f(0, 1, 1); // Set color to green
+  // Define the radius of the circular base
+  radius = 17.0; // Adjust as needed
 
-// Define the radius of the circular base
-radius = 17.0; // Adjust as needed
+  // Define the number of segments for the circle
+  int segments = 50; // Adjust as needed
 
-// Define the number of segments for the circle
-int segments = 50; // Adjust as needed
+  // Define the height of the circular base
+  float height = 3.0; // Adjust as needed
 
-// Define the height of the circular base
-float height = 3.0; // Adjust as needed
-
-// Draw the top face
-glBegin(GL_POLYGON);
-for (int i = 0; i < segments; ++i) {
+  // Draw the top face
+  glBegin(GL_POLYGON);
+  for (int i = 0; i < segments; ++i)
+  {
     float theta = 2.0 * M_PI * i / segments;
     glVertex3f(radius * cos(theta), -1, radius * sin(theta));
-}
-glEnd();
+  }
+  glEnd();
 
-// Draw the bottom face
-glBegin(GL_POLYGON);
-for (int i = 0; i < segments; ++i) {
+  // Draw the bottom face
+  glBegin(GL_POLYGON);
+  for (int i = 0; i < segments; ++i)
+  {
     float theta = 2.0 * M_PI * i / segments;
     glVertex3f(radius * cos(theta), -1 - height, radius * sin(theta));
-}
-glEnd();
+  }
+  glEnd();
 
-// Draw the side faces
-glColor3f(0.6, 1, 1); // Set color to green
+  // Draw the side faceshead
+  glColor3f(0.6, 1, 1); // Set color to green
 
-for (int i = 0; i < segments; ++i) {
+  for (int i = 0; i < segments; ++i)
+  {
     float theta1 = 2.0 * M_PI * i / segments;
     float theta2 = 2.0 * M_PI * (i + 1) / segments;
-    
+
     // Draw each side face
     glBegin(GL_POLYGON);
     glVertex3f(radius * cos(theta1), -1, radius * sin(theta1));
@@ -886,77 +885,79 @@ for (int i = 0; i < segments; ++i) {
     glVertex3f(radius * cos(theta2), -1 - height, radius * sin(theta2));
     glVertex3f(radius * cos(theta2), -1, radius * sin(theta2));
     glEnd();
-}
-glPopMatrix();
+  }
+  glPopMatrix();
 }
 
-void Cylinder(){
+void Cylinder()
+{
   GLUquadricObj *p = gluNewQuadric();
-  
+
   gluCylinder(p, 10, 10, 1, 100, 100);
   gluDisk(p, 0, 5, 100, 100);
-
 }
 
-void CAR::ExhaustCylinder(){
+void CAR::ExhaustCylinder()
+{
   GLUquadricObj *q = gluNewQuadric();
   gluCylinder(q, 5, 5, 7, 100, 100);
   gluDisk(q, 0, 5, 100, 100);
   return;
 }
 
-void CAR::ExhaustPipes(){
+void CAR::ExhaustPipes()
+{
   glPushMatrix();
-  float s=0.09;
+  float s = 0.09;
 
   glTranslatef(12, 1, 3.1);
   glRotatef(90, 0, 1, 0);
   glScalef(s, s, s);
-  glColor3f(1,1,1);
+  glColor3f(1, 1, 1);
   ExhaustCylinder();
 
   glPopMatrix();
 
   glPushMatrix();
-  s=0.09;
+  s = 0.09;
   glTranslatef(12, 1, 3.1);
   glRotatef(90, 0, 1, 0);
   glScalef(s, s, s);
-  glColor3f(1,1,1);
+  glColor3f(1, 1, 1);
   glTranslatef(10, 0, 0);
   ExhaustCylinder();
 
   glPopMatrix();
 
   glPushMatrix();
-  s=0.09;
+  s = 0.09;
   glTranslatef(12, 1, 3.1);
   glRotatef(90, 0, 1, 0);
   glScalef(s, s, s);
-  glColor3f(1,1,1);
+  glColor3f(1, 1, 1);
   glTranslatef(60, 0, 0);
   ExhaustCylinder();
 
   glPopMatrix();
 
   glPushMatrix();
-  s=0.09;
+  s = 0.09;
   glTranslatef(12, 1, 3.1);
   glRotatef(90, 0, 1, 0);
   glScalef(s, s, s);
-  glColor3f(1,1,1);
+  glColor3f(1, 1, 1);
   glTranslatef(70, 0, 0);
   ExhaustCylinder();
 
   glPopMatrix();
-
 }
 
-void CarSymbol(){
+void CarSymbol()
+{
   glPushMatrix();
   glTranslatef(-14.5, 1, 1);
   glRotatef(90, 0, 1, 0);
-  glColor3f(1,1,1);
+  glColor3f(1, 1, 1);
   glScalef(0.05, 0.05, 0.05);
   Cylinder();
   glTranslatef(10, 0, 0);
@@ -1037,8 +1038,6 @@ void CAR::Wheels(float Aw)
   glPopMatrix();
 }
 
-
-
 void CAR::SelectModel(int i)
 {
   if (i == 1)
@@ -1056,13 +1055,13 @@ void drawCar(void)
   glClear(GL_COLOR_BUFFER_BIT);
   glClearColor(0, 0, 0, 1.0); // Set background color to white
 
-  GLfloat mat_specular[] = { 0.7, 0.8, 0.8, 1.0 };
-    GLfloat mat_shininess[] = { 50.0 };
+  GLfloat mat_specular[] = {0.7, 0.8, 0.8, 1.0};
+  GLfloat mat_shininess[] = {50.0};
 
-    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-    glShadeModel (GL_SMOOTH);
+  glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+  glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+  glShadeModel(GL_SMOOTH);
   CAR car;
   // car.SelectModel(4);
   car.Lights();
@@ -1078,30 +1077,32 @@ void drawCar(void)
   return;
 }
 
-void menu(int value) {
-    // Handle menu selections
-    switch (value)
-    {
-    case 1:
-      if(headLightSwitch==false)
-      headLightSwitch=true;
-      else
-      headLightSwitch=false;
+void menu(int value)
+{
+  // Handle menu selections
+  switch (value)
+  {
+  case 1:
+    if (headLightSwitch == false)
+      headLightSwitch = true;
+    else
+      headLightSwitch = false;
 
-      glutPostRedisplay();
-      break;
-    
-    default:
-      break;
-    }
+    glutPostRedisplay();
+    break;
+
+  default:
+    break;
+  }
 }
 
-void createMenu() {
-    int mainMenu = glutCreateMenu(menu);
-    glutAddMenuEntry("Light headlights", 1);
-    glutAddMenuEntry("Option 2", 2);
-    glutAddMenuEntry("Option 3", 3);
-    glutAttachMenu(GLUT_RIGHT_BUTTON); // Attach the menu to the right mouse button
+void createMenu()
+{
+  int mainMenu = glutCreateMenu(menu);
+  glutAddMenuEntry("Light headlights", 1);
+  glutAddMenuEntry("Option 2", 2);
+  glutAddMenuEntry("Option 3", 3);
+  glutAttachMenu(GLUT_RIGHT_BUTTON); // Attach the menu to the right mouse button
 }
 
 void display()
@@ -1117,23 +1118,23 @@ void display()
   GLfloat ambientColor[] = {0.2f, 0.2f, 0.2f, 1.0f}; // Color (0.2, 0.2, 0.2) and intensity //can be greater than 1 so not like color
   glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
 
- if(headLightSwitch==false)
- {
+  if (headLightSwitch == false)
+  {
 
-  // Add positioned light
-  GLfloat lightColor0[] = {1, 1, 1, 1.0f}; // Color (0.5, 0.5, 0.5)
-  GLfloat lightPos0[] = {4.0f, 0.0f, 8.0f, 1.0f};   // Positioned at (4, 0, 8)
-  glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
-  glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
+    // Add positioned light
+    GLfloat lightColor0[] = {1, 1, 1, 1.0f};        // Color (0.5, 0.5, 0.5)
+    GLfloat lightPos0[] = {4.0f, 0.0f, 8.0f, 1.0f}; // Positioned at (4, 0, 8)
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
+    glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
 
-  // Add directed light
-  GLfloat lightColor1[] = {0.5f, 0.2f, 0.2f, 1.0f}; // Color (0.5, 0.2, 0.2)
-  // Coming from the direction (-1, 0.5, 0.5)
-  //  0 because direced light source
-  GLfloat lightPos1[] = {-1.0f, 0.5f, 0.5f, 0.0f};
-  glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
-  glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
- }
+    // Add directed light
+    GLfloat lightColor1[] = {0.5f, 0.2f, 0.2f, 1.0f}; // Color (0.5, 0.2, 0.2)
+    // Coming from the direction (-1, 0.5, 0.5)
+    //  0 because direced light source
+    GLfloat lightPos1[] = {-1.0f, 0.5f, 0.5f, 0.0f};
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
+    glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
+  }
 
   drawCar();
 
