@@ -33,7 +33,7 @@ void CAR::Lights()
   glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
   GLfloat lightColor0[] = {1, 1, 0, 1.0f}; 
   GLfloat lightPos0[] = {-14, 2, 5};      
-  glLightfv(GL_LIGHT2, GL_DIFFUSE, lightColor0);
+  glLightfv(GL_LIGHT2, GL_SPECULAR, lightColor0);
   glLightfv(GL_LIGHT2, GL_POSITION, lightPos0);
 
   glVertex3f(-14, 0, 4);
@@ -114,7 +114,7 @@ void CAR::Lights()
   glMaterialfv(GL_FRONT, GL_EMISSION, bgcolor);
   GLfloat lightColor1[] = {1, 1, 0, 1.0f}; // Color (0.5, 0.5, 0.5)
   GLfloat lightPos1[] = {-14, 2, -5};      // Positioned at (4, 0, 8)
-  glLightfv(GL_LIGHT3, GL_DIFFUSE, lightColor1);
+  glLightfv(GL_LIGHT3, GL_SPECULAR, lightColor1);
   glLightfv(GL_LIGHT3, GL_POSITION, lightPos1);
   glVertex3f(-14, 0, -4);
   glVertex3f(-14, 2, -4);
@@ -482,15 +482,7 @@ void CAR::WireFrame()
 
 }
 
-// ----------------------------draw text function -----------------------------
 
-void drawText(float x, float y, const char *text) {
-    glRasterPos2f(x, y);
-    while (*text) {
-        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *text);
-        ++text;
-    }
-}
 // --------------------------draw stroke character---------------------------
 void drawStrokeCharacter(float x, float y, float z, char *string) {
     char *c;
@@ -1126,7 +1118,6 @@ void drawCar(void)
   GLfloat mat_specular[] = {0.7, 0.8, 0.8, 1.0};
   GLfloat mat_shininess[] = {50.0};
 
-  glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
   glShadeModel(GL_SMOOTH);
@@ -1199,7 +1190,7 @@ void display()
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
     glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
 
-    // Add directed light
+    // Add another positioned  light
     GLfloat lightColor1[] = {1, 1, 1 , 1.0f}; 
     GLfloat lightPos1[] = {-1.0f, 0.5f, 0.5f, 0.0f};
     glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
