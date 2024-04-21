@@ -265,7 +265,7 @@ void CAR::Lights()
 }
 
 //---------------------------------------------------------------Wireframe for Our car----------------------------------------------
-
+// https://github.com/sckorpio/MyCity-CarGame - Acknowledgement for the wireframe code
 void CAR::WireFrame()
 {
   glColor3f(1, 1, 1);
@@ -527,7 +527,7 @@ void showScore()
 
  
 // --------------------------Painting the car----------------------------------------
-
+// https://github.com/sckorpio/MyCity-CarGame - Acknowledgement for the paint code
 void CAR::Paint()
 {
 
@@ -1185,16 +1185,16 @@ void display()
   {
 
     // Add positioned light
-    GLfloat lightColor0[] = {1, 1, 1, 1.0f};        
-    GLfloat lightPos0[] = {4.0f, 0.0f, 8.0f, 1.0f};
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
+    // GLfloat lightColor0[] = {1, 1, 1, 1.0f};        
+    // GLfloat lightPos0[] = {4.0f, 0.0f, 8.0f, 1.0f};
+    // glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
+    // glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
 
     // Add another positioned  light
-    GLfloat lightColor1[] = {1, 1, 1 , 1.0f}; 
-    GLfloat lightPos1[] = {-1.0f, 0.5f, 0.5f, 0.0f};
-    glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
-    glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
+    // GLfloat lightColor1[] = {1, 1, 1 , 1.0f}; 
+    // GLfloat lightPos1[] = {-1.0f, 0.5f, 0.5f, 0.0f};
+    // glLightfv(GL_LIGHT1, GL_DIFFUSE, lightColor1);
+    // glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
   }
 
   drawCar();
